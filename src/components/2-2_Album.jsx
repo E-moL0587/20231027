@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import db from '../firebase';
 import { collection, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
+import './2-2_Album.css';
 
 function Album({ onBack }) {
 
@@ -43,8 +44,9 @@ function Album({ onBack }) {
   };
 
   return (
-    <div>
+    <div className="album-container">
       <h2>アルバム一覧</h2>
+      <div className="album-grid">
       {data.map((item, index) => (<div key={index}>
           <img src={item.field1} alt="Album" style={{ width: '50%' }} />
 
@@ -64,6 +66,7 @@ function Album({ onBack }) {
           )}<br />
 
       </div>))}
+      </div>
       <button onClick={onBack}>戻る</button>
     </div>
   );
