@@ -22,12 +22,12 @@ function Editor({ image, onOCR }) {
   return (
     <div>
       <h2>画像を編集する</h2>
-      <img src={image} alt="Captured" style={{ clipPath: hl_clipPath(), width: '25%' }} /><br />
+      <img src={image} alt="Captured" style={{ clipPath: hl_clipPath(), width: '50%' }} /><br />
       <button onClick={() => onOCR(hl_clipPath())}>次に進む</button><br />
-      <label>上:</label><input type="range" min="0" max={dim.height / 4} value={t} onChange={(e) => hl_Input(e, setT)} /><br />
-      <label>右:</label><input type="range" min="0" max={dim.width  / 4} value={r} onChange={(e) => hl_Input(e, setR)} /><br />
-      <label>下:</label><input type="range" min="0" max={dim.height / 4} value={b} onChange={(e) => hl_Input(e, setB)} /><br />
-      <label>左:</label><input type="range" min="0" max={dim.width  / 4} value={l} onChange={(e) => hl_Input(e, setL)} /><br />
+      <label>上:</label><input type="range" min="0" max={dim.height / 2} value={t} onChange={(e) => hl_Input(e, setT)} /><br />
+      <label>右:</label><input type="range" min="0" max={dim.width  / 2} value={r} onChange={(e) => hl_Input(e, setR)} /><br />
+      <label>下:</label><input type="range" min="0" max={dim.height / 2} value={b} onChange={(e) => hl_Input(e, setB)} /><br />
+      <label>左:</label><input type="range" min="0" max={dim.width  / 2} value={l} onChange={(e) => hl_Input(e, setL)} /><br />
     </div>
   );
 }

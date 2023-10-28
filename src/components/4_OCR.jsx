@@ -26,7 +26,7 @@ function OCR({ image, clipPath, onRestart, onExit }) {
   return (
     <div>
       <h2>撮影された画像はこちらです！</h2>
-      <img src={image} alt="画像" style={{ clipPath: clipPath, width: '25%' }} /><br />
+      <img src={image} alt="画像" style={{ clipPath: clipPath, width: '50%' }} /><br />
       <button onClick={onRestart}>もう一度</button>
       <button onClick={onExit}>終了する</button>
       <button onClick={handleSave}>保存</button>

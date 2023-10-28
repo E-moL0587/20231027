@@ -46,7 +46,7 @@ function Album({ onBack }) {
     <div>
       <h2>アルバム一覧</h2>
       {data.map((item, index) => (<div key={index}>
-          <img src={item.field1} alt="Album" style={{ width: '25%' }} />
+          <img src={item.field1} alt="Album" style={{ width: '50%' }} />
 
           {edit === index ? (
             // 編集モードである場合
