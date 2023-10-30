@@ -6,6 +6,7 @@ function Home({ onCamera, onAlbum }) {
     <div>
       <br />
       <h1>phono!</h1>
+      <p>kaito反映されました</p>
       <img src="./images/book.gif" alt="ノート" style={{ width: '75%' }} /><br/>
       <p>文字を抽出してノートに保存します。</p>
       <button onClick={onCamera}>カメラの起動</button>
