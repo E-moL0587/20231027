@@ -1,4 +1,3 @@
-// アルバム画面
 import React, { useEffect, useState } from 'react';
 import db from '../firebase';
 import { collection, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
@@ -9,6 +8,8 @@ function Album({ onBack }) {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [editTex, setEditTex] = useState('');
   const [snapshot, setSnapshot] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const Space = (text) => { return text.replace(/ /g, ''); };
 
   const AlbumData = async () => {
@@ -20,9 +21,12 @@ function Album({ onBack }) {
       return { field1, field2 };
     });
     setData(dataArray);
+    setLoading(false);
   };
 
-  useEffect(() => { AlbumData(); }, []);
+  useEffect(() => { 
+    AlbumData(); 
+  }, []);
 
   const hl_Edit = (index) => {
     setSelectedPhotoIndex(index);
@@ -51,7 +55,11 @@ function Album({ onBack }) {
   return (
     <div className="album-container">
       <h2>アルバム一覧</h2>
-      {selectedPhotoIndex !== null ? (
+      {loading ? (
+        <div>読み込み中です！</div>
+      ) : selectedPhotoIndex !== null ? (
+        
+        // データが取得済みで選択された写真の詳細表示
         <div className="photo-detail">
           <img src={data[selectedPhotoIndex].field1} alt="Album" style={{ width: '50%' }} />
           <div>
@@ -65,6 +73,7 @@ function Album({ onBack }) {
           <button onClick={goBack}>戻る</button>
         </div>
       ) : (
+        // データが取得済みでアルバム一覧を表示
         <div>
           <div className="album-grid">
             {data.map((item, index) => (
