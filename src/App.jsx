@@ -16,6 +16,7 @@ function App() {
   const [showOCR   , setShowOCR   ] = useState(false);
   const [showAlbum , setShowAlbum ] = useState(false);
   const [clipPath, setClipPath] = useState('inset(0px 0px 0px 0px)');
+  const [albumId, setAlbumId] = useState('000000');
 
   // 1 --> 2-1
   const hl_Camera = () => {
@@ -56,14 +57,18 @@ function App() {
     setShowHome(false);
   };
 
+  const handleLogin = (newAlbumId) => {
+    setAlbumId(newAlbumId);
+  };
+
   return (
     <div className="App">
       {
-        showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} />) :
+        showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onLogin={handleLogin} />) :
         showCamera ? (<Camera onEditor={hl_Editor}                    />) :
         showEditor ? (<Editor image={image} onOCR={hl_OCR}            />) :
-        showOCR    ? (<OCR    image={image} clipPath={clipPath} onRestart={hl_Restart} onExit={hl_Exit} />) :
-        showAlbum  ? (<Album  onBack={hl_Exit}                        />) :
+        showOCR    ? (<OCR    image={image} clipPath={clipPath} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
+        showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit}      />) :
         ""
       }
     </div>

@@ -1,24 +1,24 @@
-// OCR処理(画像からテキストを抽出する)画面
 import React, { useState, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
 import db from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
-function OCR({ image, clipPath, onRestart, onExit }) {
+function OCR({ image, clipPath, onRestart, onExit, albumId }) {
   const [text, setText] = useState('');
 
   // データを保存する
   const handleSave = async () => {
-    await addDoc(collection(db, 'collection'), { field1: image, field2: text });
+    await addDoc(collection(db, albumId), { field1: image, field2: text });
     alert('保存されました！');
   };
 
   useEffect(() => {
-
     // OCR処理
     const doOCR = async () => {
       const { data } = await Tesseract.recognize(image, 'jpn', { logger: (m) => console.log(m) });
-      setText(data.text);
+      const cleanedText = data.text.replace(/ /g, '');
+
+      setText(cleanedText);
     };
     doOCR();
   }, [image]);
