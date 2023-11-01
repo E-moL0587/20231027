@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState, useCallback } from 'react';
+
 import db from '../firebase';
 import { collection, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 import './2-2_Album.css';
@@ -22,11 +24,13 @@ function Album({ albumId, onBack }) {
     });
     setData(dataArray);
     setLoading(false);
+
   }, [albumId]);
 
   useEffect(() => { 
     AlbumData(); 
   }, [AlbumData]);
+
 
   const hl_Edit = (index) => {
     setPhotoIndex(index);
@@ -57,7 +61,9 @@ function Album({ albumId, onBack }) {
       <h2>アルバム一覧</h2>
       {loading ? (
         <div>読み込み中です！</div>
+
       ) : photoIndex !== null ? (
+
         
         // データが取得済みで選択された写真の詳細表示
         <div className="photo-detail">

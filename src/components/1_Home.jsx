@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 function Home({ onCamera, onAlbum, onLogin, albumId }) {
@@ -9,6 +10,7 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
     setIsLoggedIn(true);
     alert('ログインされました！' + id + 'さんようこそ！');
   };
+
 
   return (
     <div>
@@ -23,9 +25,11 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
       )}
       <br />
       <h1>phono!</h1>
+
       <img src="./images/book.gif" alt="ノート" style={{ width: '75%' }} />
       <br />
       <p>文字を抽出してノートに保存します.</p>
+
       <button onClick={onCamera}>カメラの起動</button>
       <button onClick={onAlbum}>アルバム</button>
       <br />

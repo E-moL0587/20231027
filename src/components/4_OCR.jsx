@@ -5,10 +5,13 @@ import { collection, addDoc } from 'firebase/firestore';
 
 function OCR({ image, clipPath, onRestart, onExit, albumId }) {
   const [text, setText] = useState('');
+  const [searchResultURL, setSearchResultURL] = useState('');
 
   // データを保存する
   const handleSave = async () => {
+
     await addDoc(collection(db, albumId), { field1: image, field2: text });
+ 
     alert('保存されました！');
   };
 
@@ -16,9 +19,11 @@ function OCR({ image, clipPath, onRestart, onExit, albumId }) {
     // OCR処理
     const doOCR = async () => {
       const { data } = await Tesseract.recognize(image, 'jpn', { logger: (m) => console.log(m) });
+
       const cleanedText = data.text.replace(/ /g, '');
 
       setText(cleanedText);
+
     };
     doOCR();
   }, [image]);
@@ -32,6 +37,14 @@ function OCR({ image, clipPath, onRestart, onExit, albumId }) {
       <button onClick={handleSave}>保存</button>
       <h2>抽出した文字</h2>
       <p>{text}</p>
+      {searchResultURL && (
+        <div>
+          <h2>検索結果</h2>
+          <a href={searchResultURL} target="_blank" rel="noopener noreferrer">
+            検索結果を表示
+          </a>
+        </div>
+      )}
     </div>
   );
 }
