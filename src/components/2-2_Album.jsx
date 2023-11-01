@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+
+import React, { useEffect, useState, useCallback } from 'react';
+
 import db from '../firebase';
 import { collection, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 import './2-2_Album.css';
 
-function Album({ onBack }) {
+function Album({ albumId, onBack }) {
   const [data, setData] = useState([]);
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [photoIndex, setPhotoIndex] = useState(null);
   const [editTex, setEditTex] = useState('');
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const Space = (text) => { return text.replace(/ /g, ''); };
 
-  const AlbumData = async () => {
-    const collectionRef = collection(db, 'collection');
+  const AlbumData = useCallback(async () => {
+    const collectionRef = collection(db, albumId);
     const snap = await getDocs(collectionRef);
     setSnapshot(snap);
     const dataArray = snap.docs.map((doc) => {
@@ -22,14 +24,16 @@ function Album({ onBack }) {
     });
     setData(dataArray);
     setLoading(false);
-  };
+
+  }, [albumId]);
 
   useEffect(() => { 
     AlbumData(); 
-  }, []);
+  }, [AlbumData]);
+
 
   const hl_Edit = (index) => {
-    setSelectedPhotoIndex(index);
+    setPhotoIndex(index);
     setEditTex(data[index].field2);
   };
 
@@ -37,19 +41,19 @@ function Album({ onBack }) {
     const docToDelete = snapshot.docs[index];
     await deleteDoc(docToDelete.ref);
     AlbumData();
-    setSelectedPhotoIndex(null);
+    setPhotoIndex(null);
   };
 
   const hl_SaveEdit = async (index) => {
     const docToEdit = snapshot.docs[index];
     await updateDoc(docToEdit.ref, { field2: editTex });
-    setSelectedPhotoIndex(null);
+    setPhotoIndex(null);
     AlbumData();
     alert('保存されました！');
   };
 
   const goBack = () => {
-    setSelectedPhotoIndex(null);
+    setPhotoIndex(null);
   };
 
   return (
@@ -57,19 +61,21 @@ function Album({ onBack }) {
       <h2>アルバム一覧</h2>
       {loading ? (
         <div>読み込み中です！</div>
-      ) : selectedPhotoIndex !== null ? (
+
+      ) : photoIndex !== null ? (
+
         
         // データが取得済みで選択された写真の詳細表示
         <div className="photo-detail">
-          <img src={data[selectedPhotoIndex].field1} alt="Album" style={{ width: '50%' }} />
+          <img src={data[photoIndex].field1} alt="Album" style={{ width: '50%' }} />
           <div>
-            {Space(data[selectedPhotoIndex].field2).split('\n').map((line, i) => (
+            {Space(data[photoIndex].field2).split('\n').map((line, i) => (
               <div key={i}>{line}</div>
             ))}
           </div>
           <input type="text" value={editTex} onChange={(e) => setEditTex(e.target.value)} />
-          <button onClick={() => hl_SaveEdit(selectedPhotoIndex)}>保存</button>
-          <button onClick={() => hl_Delete(selectedPhotoIndex)}>削除</button>
+          <button onClick={() => hl_SaveEdit(photoIndex)}>保存</button>
+          <button onClick={() => hl_Delete(photoIndex)}>削除</button>
           <button onClick={goBack}>戻る</button>
         </div>
       ) : (

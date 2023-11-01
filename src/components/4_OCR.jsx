@@ -3,29 +3,27 @@ import Tesseract from 'tesseract.js';
 import db from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
-function OCR({ image, clipPath, onRestart, onExit }) {
+function OCR({ image, clipPath, onRestart, onExit, albumId }) {
   const [text, setText] = useState('');
   const [searchResultURL, setSearchResultURL] = useState('');
 
   // データを保存する
   const handleSave = async () => {
-    await addDoc(collection(db, 'collection'), { field1: image, field2: text, searchResultURL });
+
+    await addDoc(collection(db, albumId), { field1: image, field2: text });
+ 
     alert('保存されました！');
   };
 
   useEffect(() => {
-
     // OCR処理
     const doOCR = async () => {
       const { data } = await Tesseract.recognize(image, 'jpn', { logger: (m) => console.log(m) });
-      const cleanedText = data.text.replace(/\s/g, '');
+
+      const cleanedText = data.text.replace(/ /g, '');
 
       setText(cleanedText);
 
-      // テキストを使用してウェブ検索をシミュレート
-      const searchQuery = encodeURI(cleanedText);
-      const searchURL = `https://www.google.com/search?q=${searchQuery}`;
-      setSearchResultURL(searchURL);
     };
     doOCR();
   }, [image]);
