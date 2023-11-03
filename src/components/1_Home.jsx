@@ -1,37 +1,42 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Makebutton from "./parts/button";
+import "./1_Home.css";
 
 function Home({ onCamera, onAlbum, onLogin, albumId }) {
-  const [id, setId] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(albumId !== 'collection');
+  const [id, setId] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(albumId !== "collection");
 
   const handleLogin = () => {
     onLogin(id);
     setIsLoggedIn(true);
-    alert('ログインされました！' + id + 'さんようこそ！');
+    alert("ログインされました！" + id + "さんようこそ！");
   };
-
 
   return (
     <div>
       {isLoggedIn ? (
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: "right" }}>
           <p>ログインID: {albumId} さん 専用</p>
         </div>
       ) : (
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: "right" }}>
           <p>ゲストさん専用</p>
         </div>
       )}
       <br />
       <h1>phono!</h1>
 
-      <img src="./images/book.gif" alt="ノート" style={{ width: '75%' }} />
+      <img src="./images/book.gif" alt="ノート" style={{ width: "75%" }} />
       <br />
       <p>文字を抽出してノートに保存します.</p>
 
-      <button onClick={onCamera}>カメラの起動</button>
+      <button class="camera" onClick={onCamera}>
+        カメラの起動
+      </button>
+      <Makebutton onCamera={onCamera} />
+
       <button onClick={onAlbum}>アルバム</button>
+
       <br />
 
       <input
