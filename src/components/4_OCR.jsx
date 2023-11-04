@@ -18,8 +18,9 @@ function OCR({
   onRestart,
   onExit,
   albumId,
-  back_home,
-  back_Album,
+  onBack,
+  onAlbum,
+  onShare,
 }) {
   const [text, setText] = useState("");
 
@@ -68,11 +69,15 @@ function OCR({
       />
       <br />
       <button onClick={onRestart}>もう一度</button>
-      <button onClick={onExit}>終了する</button>
+      <button onClick={onBack}>終了する</button>
       <button onClick={handleSave}>保存</button>
       <h2>抽出した文字</h2>
       <p>{text}</p>
-      <SimpleBottomNavigation back_home={back_home} back_Album={back_Album} />
+      <SimpleBottomNavigation
+        onBack={onBack}
+        onAlbum={onAlbum}
+        onShare={onShare}
+      />
     </div>
   );
 }
