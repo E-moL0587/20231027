@@ -116,7 +116,6 @@ function App() {
       ) : showOCR ? (
         <OCR
           image={image}
-          clipPath={clipPath}
           onRestart={hl_Restart}
           onExit={hl_Exit}
           albumId={albumId}
@@ -129,7 +128,7 @@ function App() {
         <Share albumId={albumId} onBack={hl_Exit} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
       ) : (
 
-      {
+
         showLogin  ? (<Login  onHome={hl_Home} onBack={hl_Exit}  />) :
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
         showCamera ? (<Camera onEditor={hl_Editor}               />) :

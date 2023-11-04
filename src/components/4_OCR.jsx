@@ -91,8 +91,8 @@ function OCR({ image, clipPath, onRestart, onExit, albumId, onBack, onAlbum, onS
       </div>
       <div className="bottom-navigation-container">
       <SimpleBottomNavigation onBack={onBack} onAlbum={onAlbum} onShare={onShare} />
-
     </div>
+  </div>
   );
 }
 
