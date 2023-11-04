@@ -68,7 +68,6 @@ function Camera({ onEditor, onBack, onShare, onExit, onAlbum}) {
       <SimpleBottomNavigation onExit={onExit} onAlbum={onAlbum} onShare={onShare} />
       </div>
     </div>
-    
   );
 }
 
