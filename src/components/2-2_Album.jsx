@@ -3,8 +3,9 @@ import db from "../firebase";
 import { collection, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import "./2-2_Album.css";
 import SimpleBottomNavigation from "./parts/footer";
+import "./parts/bottom_position.css"
 
-function Album({ albumId, onBack, onShare }) {
+function Album({ albumId, onBack, onShare, onExit, onAlbum}) {
   const [data, setData] = useState([]);
   const [photoIndex, setPhotoIndex] = useState(null);
   const [editTex, setEditTex] = useState("");
@@ -99,7 +100,9 @@ function Album({ albumId, onBack, onShare }) {
           <button onClick={onBack}>戻る</button>
         </div>
       )}
-      <SimpleBottomNavigation onBack={onBack} onShare={onShare} />
+      <div className="bottom-navigation-container">
+      <SimpleBottomNavigation onExit={onExit} onAlbum={onAlbum} onShare={onShare}/>
+      </div>
     </div>
   );
 }
