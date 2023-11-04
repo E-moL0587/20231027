@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Makebackbutton from "./parts/back";
 
-function Camera({ onEditor, hl_Back }) {
+function Camera({ onEditor, onBack}) {
   // 初期化
   const videoRef = useRef(null);
   const streamRef = useRef(null);
@@ -48,7 +48,9 @@ function Camera({ onEditor, hl_Back }) {
       <h2>画像を編集する</h2>
       <video ref={videoRef} autoPlay style={{ width: "50%" }} />
       <br />
-      <Makebackbutton />
+
+      <Makebackbutton onBack={onBack} />
+
       <button onClick={captureImage}>撮影する</button>
       <button onClick={toggleFacingMode}>カメラ切替</button>
     </div>
