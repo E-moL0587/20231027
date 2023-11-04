@@ -2,15 +2,21 @@ import React, { useState } from "react";
 import Makebutton from "./parts/button";
 import "./1_Home.css";
 
-import db from '../firebase';
-import { collection, query, doc, setDoc, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import db from "../firebase";
+import {
+  collection,
+  query,
+  doc,
+  setDoc,
+  addDoc,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
 import SimpleBottomNavigation from "./parts/footer";
 
-
 function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
-  const [id   , setId   ] = useState('');
-  const [guest, setGuest] = useState(albumId !== 'collection');
-
+  const [id, setId] = useState("");
+  const [guest, setGuest] = useState(albumId !== "collection");
 
   // ログイン処理
   const hl_Login = async () => {
@@ -24,8 +30,7 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       onLogin(id);
 
       setGuest(true);
-      alert('ログインされました！' + id + 'さんようこそ！');
-
+      alert("ログインされました！" + id + "さんようこそ！");
     }
   };
 
@@ -34,8 +39,8 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
     await handleDeleteCollection();
     const num = Math.floor(100000 + Math.random() * 900000).toString();
 
-    await addDoc(collection(db, num), { field1: 'image', field2: 'text' });
-    await setDoc(doc(collection(db, 'history'), num), {});
+    await addDoc(collection(db, num), { field1: "image", field2: "text" });
+    await setDoc(doc(collection(db, "history"), num), {});
 
     onLogin(num);
 
@@ -48,41 +53,42 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
     );
   };
 
-
   // コレクションの削除処理
   const handleDeleteCollection = async () => {
-    const querySnapshot = await getDocs(collection(db, 'history'));
+    const querySnapshot = await getDocs(collection(db, "history"));
 
     querySnapshot.forEach(async (doc) => {
       const collectionSnapshot = await getDocs(collection(db, doc.id));
-  
+
       if (!collectionSnapshot.empty) {
         let shouldDelete = true;
         collectionSnapshot.forEach((colDoc) => {
           const data = colDoc.data();
-          if (data.field1 !== 'image' || data.field2 !== 'text') shouldDelete = false;
+          if (data.field1 !== "image" || data.field2 !== "text")
+            shouldDelete = false;
         });
         if (shouldDelete) {
-          collectionSnapshot.forEach(async (colDoc) => { await deleteDoc(colDoc.ref); });
+          collectionSnapshot.forEach(async (colDoc) => {
+            await deleteDoc(colDoc.ref);
+          });
           await deleteDoc(doc.ref);
         }
       }
     });
-    querySnapshot.forEach(async (doc) => { await deleteDoc(doc.ref); });
-
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
   };
 
   return (
     <div>
-
       {guest ? (
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: "right" }}>
           <p>ログインID: {albumId} さん 専用</p>
         </div>
       ) : (
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: "right" }}>
           <p>ゲストさん 専用</p>
-
         </div>
       )}
 
@@ -93,14 +99,14 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       <br />
       <p>文字を抽出してノートに保存します.</p>
 
-      <button class="camera" onClick={onCamera}>
-        カメラの起動
-      </button>
       <Makebutton onCamera={onCamera} />
       <button onClick={onAlbum}>アルバム</button>
 
-      <button onClick={onShare}>共有</button><br /><br />
-      <button onClick={hl_newLogin}>新規ログイン</button><br />
+      <button onClick={onShare}>共有</button>
+      <br />
+      <br />
+      <button onClick={hl_newLogin}>新規ログイン</button>
+      <br />
 
       <input
         type="text"
@@ -109,9 +115,9 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
         onChange={(e) => setId(e.target.value)}
       />
 
-      <button onClick={hl_Login}>ログイン</button><br />
+      <button onClick={hl_Login}>ログイン</button>
+      <br />
       <SimpleBottomNavigation />
-
     </div>
   );
 }
