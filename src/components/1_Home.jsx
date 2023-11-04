@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Makebutton from "./parts/button";
+import "./parts/bottom_position.css"
 
 import db from "../firebase";
 import SimpleBottomNavigation from "./parts/footer";
@@ -85,34 +86,16 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       )}
 
       <br />
-      <h1>phono!</h1>
+      <h1><font face="arial black" size="100">phono!</font></h1>
+
 
       <img src="./images/book.gif" alt="ノート" style={{ width: "75%" }} />
       <br />
-      <p>文字を抽出してノートに保存します.</p>
-
+      <p><font face="Haettenschweiler" size="5">文字を抽出してノートに保存します.</font></p>
       <Makebutton onCamera={onCamera} />
-      <button onClick={onCamera}>カメラの起動</button>
-      <button onClick={onAlbum}>アルバム</button>
-
-      <button onClick={onShare}>共有</button>
-      <br />
-      <br />
-      <button onClick={hl_newLogin}>新規ログイン</button>
-      <br />
-
-      <button onClick={onShare}>共有</button><br /><br />
-      <button onClick={hl_newLogin}>新規ログイン</button><br />
-      <input
-        type="text"
-        placeholder="ID 6桁を入力"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-      />
-
-      <button onClick={hl_Login}>ログイン</button>
-      <br />
+      <div className="bottom-navigation-container">
       <SimpleBottomNavigation onAlbum={onAlbum} onShare={onShare} />
+      </div>
     </div>
   );
 }

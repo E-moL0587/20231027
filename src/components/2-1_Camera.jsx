@@ -3,8 +3,10 @@ import React, { useRef, useEffect, useState } from "react";
 import Makebackbutton from "./parts/back";
 import MakeCamerabutton from "./parts/cameraButton";
 import "./2-1_Camera.css";
+import SimpleBottomNavigation from "./parts/footer";
+import "./parts/bottom_position.css"
 
-function Camera({ onEditor, onBack }) {
+function Camera({ onEditor, onBack, onShare, onExit, onAlbum}) {
   // 初期化
   const videoRef = useRef(null);
   const streamRef = useRef(null);
@@ -51,7 +53,7 @@ function Camera({ onEditor, onBack }) {
       <div class="main">
         <div class="containertop">
           <Makebackbutton onBack={onBack} />
-          <h2>画像を編集する</h2>
+          <h2><font face="Haettenschweiler" size="6">画像を撮影する</font></h2>
         </div>
 
         <video class="display" ref={videoRef} autoPlay />
@@ -62,7 +64,11 @@ function Camera({ onEditor, onBack }) {
           <button onClick={toggleFacingMode}>カメラ切替</button>
         </div>
       </div>
+      <div className="bottom-navigation-container">
+      <SimpleBottomNavigation onExit={onExit} onAlbum={onAlbum} onShare={onShare} />
+      </div>
     </div>
+    
   );
 }
 
