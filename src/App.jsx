@@ -1,5 +1,4 @@
 // 画面の状態管理
-
 import React, { useState } from 'react';
 import Home   from './components/1_Home';
 import Camera from './components/2-1_Camera';
@@ -7,7 +6,6 @@ import Album  from './components/2-2_Album';
 import Share  from './components/2-3_Share';
 import Editor from './components/3_Editor';
 import OCR    from './components/4_OCR';
-
 
 function App() {
   // 初期化
@@ -83,7 +81,6 @@ function App() {
         showOCR    ? (<OCR    image={image} clipPath={clipPath} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
         showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit} />) :
         showShare  ? (<Share  albumId={albumId} onBack={hl_Exit} />) :
-
         ""
       }
     </div>
