@@ -1,5 +1,7 @@
 // 画面の状態管理
+
 import React, { useState } from 'react';
+import Login  from './components/0_Login';
 import Home   from './components/1_Home';
 import Camera from './components/2-1_Camera';
 import Album  from './components/2-2_Album';
@@ -7,18 +9,26 @@ import Share  from './components/2-3_Share';
 import Editor from './components/3_Editor';
 import OCR    from './components/4_OCR';
 
+
 function App() {
 
   // 初期化
   const [image, setImage] = useState(null);
-  const [showHome  , setShowHome  ] = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
+  const [showHome, setShowHome] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
-  const [showOCR   , setShowOCR   ] = useState(false);
-  const [showAlbum , setShowAlbum ] = useState(false);
-  const [showShare , setShowShare ] = useState(false);
-  const [clipPath, setClipPath] = useState('inset(0px 0px 0px 0px)');
-  const [albumId, setAlbumId] = useState('collection');
+  const [showOCR, setShowOCR] = useState(false);
+  const [showAlbum, setShowAlbum] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+  const [clipPath, setClipPath] = useState("inset(0px 0px 0px 0px)");
+  const [albumId, setAlbumId] = useState("collection");
+
+  // 0 --> 1
+  const hl_Home = () => {
+    setShowHome(true);
+    setShowLogin(false);
+  }
 
   // 1 --> 2-1
   const hl_Camera = () => {
@@ -48,22 +58,33 @@ function App() {
 
   // 4 --> 1 && 2-2 --> 1
   const hl_Exit = () => {
+    setShowLogin(false)
     setShowHome(true);
     setShowOCR(false);
     setShowAlbum(false);
     setShowShare(false);
+    setShowCamera(false);
+    setShowEditor(false);
   };
 
-  // 1 --> 2-2
+  //  --> 2-2
   const hl_Album = () => {
     setShowAlbum(true);
     setShowHome(false);
+    setShowCamera(false);
+    setShowEditor(false);
+    setShowOCR(false);
+    setShowShare(false);
   };
 
-  // 1 --> 2-2
+  //  --> 2-3
   const hl_Share = () => {
     setShowShare(true);
     setShowHome(false);
+    setShowOCR(false);
+    setShowAlbum(false);
+    setShowCamera(false);
+    setShowEditor(false);
   };
 
   const handleLogin = (newAlbumId) => {
@@ -72,7 +93,11 @@ function App() {
 
   return (
     <div className="App">
+
+
+
       {
+        showLogin  ? (<Login  onHome={hl_Home} onBack={hl_Exit}  />) :
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
         showCamera ? (<Camera onEditor={hl_Editor}               />) :
         showEditor ? (<Editor image={image} onOCR={hl_OCR}       />) :

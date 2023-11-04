@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import db from '../firebase';
-import { collection, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
-import './2-2_Album.css';
+import React, { useEffect, useState, useCallback } from "react";
+import db from "../firebase";
+import { collection, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
+import "./2-2_Album.css";
+import SimpleBottomNavigation from "./parts/footer";
 
-function Album({ albumId, onBack }) {
+function Album({ albumId, onBack, onShare }) {
   const [data, setData] = useState([]);
   const [photoIndex, setPhotoIndex] = useState(null);
-  const [editTex, setEditTex] = useState('');
+  const [editTex, setEditTex] = useState("");
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,10 +27,10 @@ function Album({ albumId, onBack }) {
     AlbumData();
   }, [AlbumData]);
 
+  // 写真個々に割り当てられたボタン
   const hl_Edit = (index) => {
     setPhotoIndex(index);
     const field2Value = data[index].field2;
-    // Split the text by commas and join with line breaks, skipping empty values
     setEditTex(
       field2Value
         .split(', ')
@@ -38,22 +39,23 @@ function Album({ albumId, onBack }) {
     );
   };
 
+  // 削除ボタン
   const hl_Delete = async (index) => {
     const docToDelete = snapshot.docs[index];
     await deleteDoc(docToDelete.ref);
     setPhotoIndex(null);
     AlbumData();
-    alert('削除されました！');
+    alert("削除されました！");
   };
 
+  // 保存ボタン
   const hl_SaveEdit = async (index) => {
     const docToEdit = snapshot.docs[index];
-    // Split the textarea value by line breaks and join with commas
     const updatedField2 = editTex.split('\n').join(', ');
     await updateDoc(docToEdit.ref, { field2: updatedField2 });
     setPhotoIndex(null);
     AlbumData();
-    alert('保存されました！');
+    alert("保存されました！");
   };
 
   const goBack = () => {
@@ -65,16 +67,16 @@ function Album({ albumId, onBack }) {
   return (
     <div className="album-container">
       <h2>アルバム一覧</h2>
-      {loading ? (
+      {loading ? ( // ローディング中か否か
         <div>読み込み中です！</div>
-      ) : isAlbumEmpty ? (
+      ) : isAlbumEmpty ? ( // ローディング終了後、アルバムに写真がない時はtrue、写真がある時はfalse
         <div>
           アルバムは空です
           <br />
           <br />
           <button onClick={onBack}>戻る</button>
-        </div>
-      ) : photoIndex !== null ? (
+        </div>                    // ローディング終了後、アルバムに写真がある時、trueで写真のノート(編集)を表示、falseで写真を選択する一覧の表示
+      ) : photoIndex !== null ? ( // trueとfalseは写真を選択するか否かで変化する
         <div className="photo-detail">
           <div className="textarea-container">
             <textarea value={editTex} onChange={(e) => setEditTex(e.target.value)} />
@@ -89,7 +91,7 @@ function Album({ albumId, onBack }) {
           <div className="album-grid">
             {data.map((item, index) => (
               <div key={index} onClick={() => hl_Edit(index)}>
-                <img src={item.field1} alt="Album" style={{ width: '150px', height: '150px' }} />
+                <img src={item.field1} alt="Album" style={{ width: "150px", height: "150px" }} />
               </div>
             ))}
           </div>
@@ -97,6 +99,7 @@ function Album({ albumId, onBack }) {
           <button onClick={onBack}>戻る</button>
         </div>
       )}
+      <SimpleBottomNavigation onBack={onBack} onShare={onShare} />
     </div>
   );
 }
