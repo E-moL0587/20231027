@@ -3,11 +3,19 @@ import Makebutton from "./parts/button";
 
 import db from "../firebase";
 import SimpleBottomNavigation from "./parts/footer";
-import { collection, query, doc, setDoc, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  doc,
+  setDoc,
+  addDoc,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
 
 function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
-  const [id, setId] = useState('');
-  const [guest, setGuest] = useState(albumId !== 'collection');
+  const [id, setId] = useState("");
+  const [guest, setGuest] = useState(albumId !== "collection");
 
   // ログイン処理
   const hl_Login = async () => {
@@ -41,7 +49,6 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
         num +
         "さんようこそ！\nID は忘れずにメモしてください！"
     );
-    alert('ログインされました！' + num + 'さんようこそ！\nID は忘れずにメモしてください！');
   };
 
   // コレクションの削除処理
@@ -50,7 +57,6 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
 
     querySnapshot.forEach(async (doc) => {
       const collectionSnapshot = await getDocs(collection(db, doc.id));
-
 
       if (!collectionSnapshot.empty) {
         let shouldDelete = true;
@@ -101,8 +107,11 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       <button onClick={hl_newLogin}>新規ログイン</button>
       <br />
 
-      <button onClick={onShare}>共有</button><br /><br />
-      <button onClick={hl_newLogin}>新規ログイン</button><br />
+      <button onClick={onShare}>共有</button>
+      <br />
+      <br />
+      <button onClick={hl_newLogin}>新規ログイン</button>
+      <br />
       <input
         type="text"
         placeholder="ID 6桁を入力"
