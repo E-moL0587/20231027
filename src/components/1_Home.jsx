@@ -3,14 +3,16 @@ import React, { useState } from "react";
 import Makebutton from "./parts/button";
 import "./1_Home.css";
 import db from '../firebase';
-import { collection, addDoc, getDocs, query, deleteDoc } from 'firebase/firestore';
+import { collection, query, doc, setDoc, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
 
 
-function Home({ onCamera, onAlbum, onLogin, albumId }) {
-  const [id, setId] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(albumId !== "collection");
+function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
+  const [id   , setId   ] = useState('');
+  const [guest, setGuest] = useState(albumId !== 'collection');
 
-  const handleLogin = async () => {
+
+  // ログイン処理
+  const hl_Login = async () => {
     const userCollectionRef = collection(db, id);
     const userQuery = query(userCollectionRef);
     const querySnapshot = await getDocs(userQuery);
@@ -19,52 +21,60 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
       alert('ユーザーが存在しません。');
     } else {
       onLogin(id);
-      setIsLoggedIn(true);
+      setGuest(true);
       alert('ログインされました！' + id + 'さんようこそ！');
     }
   };
 
-  const sinki = async () => {
+  // 新規ログイン処理
+  const hl_newLogin = async () => {
+    await handleDeleteCollection();
     const num = Math.floor(100000 + Math.random() * 900000).toString();
-    const collectionRef = collection(db, num);
-    await addDoc(collectionRef, { field1: 'image', field2: 'text' });
+    await addDoc(collection(db, num), { field1: 'image', field2: 'text' });
+    await setDoc(doc(collection(db, 'history'), num), {});
     onLogin(num);
-    setIsLoggedIn(true);
+
+    setGuest(true);
 
     alert('ログインされました！' + num + 'さんようこそ！\nID は忘れずにメモしてください！');
   };
 
-  const handleDeleteCollections = async () => {
+  // コレクションの削除処理
+  const handleDeleteCollection = async () => {
+    const querySnapshot = await getDocs(collection(db, 'history'));
 
-      const collectionRef = collection(db, id.toString());
+    querySnapshot.forEach(async (doc) => {
+      const collectionSnapshot = await getDocs(collection(db, doc.id));
   
-      try {
-        const querySnapshot = await getDocs(collectionRef);
-  
-        querySnapshot.forEach(async (doc) => {
-          const data = doc.data();
-          if (data.field1 === 'image' && data.field2 === 'text') {
-            await deleteDoc(doc.ref);
-          }
+      if (!collectionSnapshot.empty) {
+        let shouldDelete = true;
+        collectionSnapshot.forEach((colDoc) => {
+          const data = colDoc.data();
+          if (data.field1 !== 'image' || data.field2 !== 'text') shouldDelete = false;
         });
-      } catch (error) {
-        console.error(`Error deleting collection ${id}: ${error.message}`);
+        if (shouldDelete) {
+          collectionSnapshot.forEach(async (colDoc) => { await deleteDoc(colDoc.ref); });
+          await deleteDoc(doc.ref);
+        }
       }
-  
-    alert('削除が完了しました。');
+    });
+    querySnapshot.forEach(async (doc) => { await deleteDoc(doc.ref); });
   };
 
   return (
     <div>
-      {isLoggedIn ? (
-        <div style={{ textAlign: "right" }}>
+
+      {guest ? (
+        <div style={{ textAlign: 'right' }}>
           <p>ログインID: {albumId} さん 専用</p>
         </div>
       ) : (
-        <div style={{ textAlign: "right" }}>
-          <p>ゲストさん専用</p>
+        <div style={{ textAlign: 'right' }}>
+          <p>ゲストさん 専用</p>
+
         </div>
       )}
+
       <br />
       <h1>phono!</h1>
 
@@ -79,7 +89,8 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
       <Makebutton onCamera={onCamera} />
       <button onClick={onAlbum}>アルバム</button>
 
-      <br />
+      <button onClick={onShare}>共有</button><br /><br />
+      <button onClick={hl_newLogin}>新規ログイン</button><br />
 
       <input
         type="text"
@@ -87,9 +98,7 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
         value={id}
         onChange={(e) => setId(e.target.value)}
       />
-      <button onClick={handleLogin}>ログイン</button><br />
-      <button onClick={sinki}>新規ログイン</button>
-      {/* <button onClick={handleDeleteCollections}>nn</button> */}
+      <button onClick={hl_Login}>ログイン</button><br />
     </div>
   );
 }

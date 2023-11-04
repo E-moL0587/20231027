@@ -36,8 +36,9 @@ function Album({ albumId, onBack }) {
   const hl_Delete = async (index) => {
     const docToDelete = snapshot.docs[index];
     await deleteDoc(docToDelete.ref);
-    AlbumData();
     setPhotoIndex(null);
+    AlbumData();
+    alert('削除されました！');
   };
 
   const hl_SaveEdit = async (index) => {
