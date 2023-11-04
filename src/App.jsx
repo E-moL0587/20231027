@@ -1,17 +1,15 @@
 // 画面の状態管理
 
-import React, { useState } from 'react';
-import Login  from './components/0_Login';
-import Home   from './components/1_Home';
-import Camera from './components/2-1_Camera';
-import Album  from './components/2-2_Album';
-import Share  from './components/2-3_Share';
-import Editor from './components/3_Editor';
-import OCR    from './components/4_OCR';
-
+import React, { useState } from "react";
+import Login from "./components/0_Login";
+import Home from "./components/1_Home";
+import Camera from "./components/2-1_Camera";
+import Album from "./components/2-2_Album";
+import Share from "./components/2-3_Share";
+import Editor from "./components/3_Editor";
+import OCR from "./components/4_OCR";
 
 function App() {
-
   // 初期化
   const [image, setImage] = useState(null);
   const [showLogin, setShowLogin] = useState(true);
@@ -27,7 +25,7 @@ function App() {
   const hl_Home = () => {
     setShowHome(true);
     setShowLogin(false);
-  }
+  };
 
   // 1 --> 2-1
   const hl_Camera = () => {
@@ -57,7 +55,7 @@ function App() {
 
   // 4 --> 1 && 2-2 --> 1
   const hl_Exit = () => {
-    setShowLogin(false)
+    setShowLogin(false);
     setShowHome(true);
     setShowOCR(false);
     setShowAlbum(false);
@@ -93,7 +91,43 @@ function App() {
   return (
     <div className="App">
 
-
+      {showLogin ? (
+        <Login
+          onHome={hl_Home}
+          onBack={hl_Exit}
+          albumId={albumId}
+          onCamera={hl_Camera}
+          onAlbum={hl_Album}
+          onShare={hl_Share}
+          onLogin={handleLogin}
+        />
+      ) : showHome ? (
+        <Home
+          onCamera={hl_Camera}
+          onAlbum={hl_Album}
+          onShare={hl_Share}
+          onLogin={handleLogin}
+          albumId={albumId}
+        />
+      ) : showCamera ? (
+        <Camera onEditor={hl_Editor} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share} />
+      ) : showEditor ? (
+        <Editor image={image} onOCR={hl_OCR} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
+      ) : showOCR ? (
+        <OCR
+          image={image}
+          clipPath={clipPath}
+          onRestart={hl_Restart}
+          onExit={hl_Exit}
+          albumId={albumId}
+          onAlbum={hl_Album}
+          onShare={hl_Share}
+        />
+      ) : showAlbum ? (
+        <Album albumId={albumId} onBack={hl_Exit} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
+      ) : showShare ? (
+        <Share albumId={albumId} onBack={hl_Exit} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
+      ) : (
 
       {
         showLogin  ? (<Login  onHome={hl_Home} onBack={hl_Exit}  />) :
@@ -104,7 +138,7 @@ function App() {
         showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit} />) :
         showShare  ? (<Share  albumId={albumId} onBack={hl_Exit} />) :
         ""
-      }
+      )}
     </div>
   );
 }

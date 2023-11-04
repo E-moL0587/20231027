@@ -3,6 +3,7 @@ import Tesseract from "tesseract.js";
 import db from "../firebase";
 import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 import SimpleBottomNavigation from "./parts/footer";
+import "./parts/bottom_position.css"
 
 const API_KEY = "AIzaSyBim71NCsgxVGOpNCXrswtQ0OjN5vzvomI";
 const CX = "502fc3d9bfefa4fcc";
@@ -65,14 +66,19 @@ function OCR({ image, clipPath, onRestart, onExit, albumId, onBack, onAlbum, onS
 
   return (
     <div>
-      <h2>撮影された画像はこちらです！</h2>
-      <img src={image} alt="画像" style={{ clipPath, width: "50%" }} />
+      <h2><font face="Haettenschweiler" size="6">撮影した画像はこちらです！</font></h2>
       <br />
-      <button onClick={onRestart}>もう一度</button>
-      <button onClick={onExit}>終了する</button>
-      <button onClick={handleSave}>保存</button>
+      <img
+        src={image}
+        alt="画像"
+        style={{ clipPath: clipPath, width: "50%" }}
+      />
+      <br />
+      <button onClick={onRestart}><font face="Haettenschweiler" size="3">もう一度</font></button>
+      <button onClick={onExit}><font face="Haettenschweiler" size="3">終了する</font></button>
+      <button onClick={handleSave}><font face="Haettenschweiler" size="3">保存</font></button>
       <h2>抽出した文字</h2>
-      <p>{text}</p>
+      <p><font face="Haettenschweiler" size="5">{text}</font></p>
       <h2>検索結果</h2>
       <div>
         {searchResults.map((result, index) => (
@@ -83,7 +89,9 @@ function OCR({ image, clipPath, onRestart, onExit, albumId, onBack, onAlbum, onS
           </div>
         ))}
       </div>
+      <div className="bottom-navigation-container">
       <SimpleBottomNavigation onBack={onBack} onAlbum={onAlbum} onShare={onShare} />
+
     </div>
   );
 }

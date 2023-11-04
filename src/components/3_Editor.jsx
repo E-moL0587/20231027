@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import SimpleBottomNavigation from "./parts/footer";
+import "./parts/bottom_position.css"
 
 function ImageEditor({ image, onOCR, onBack, onAlbum, onShare }) {
   const cropperRef = useRef(null);
   const [croppedImage, setCroppedImage] = useState(null);
+
 
   useEffect(() => {
     const img = new Image();

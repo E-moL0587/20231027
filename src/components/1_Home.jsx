@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import Makebutton from "./parts/button";
+import "./parts/bottom_position.css"
 
 import db from "../firebase";
 import SimpleBottomNavigation from "./parts/footer";
-import { collection, query, doc, setDoc, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  doc,
+  setDoc,
+  addDoc,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
 
 function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
-  const [id, setId] = useState('');
-  const [guest, setGuest] = useState(albumId !== 'collection');
+  const [id, setId] = useState("");
+  const [guest, setGuest] = useState(albumId !== "collection");
 
   // ログイン処理
   const hl_Login = async () => {
@@ -41,7 +50,6 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
         num +
         "さんようこそ！\nID は忘れずにメモしてください！"
     );
-    alert('ログインされました！' + num + 'さんようこそ！\nID は忘れずにメモしてください！');
   };
 
   // コレクションの削除処理
@@ -50,7 +58,6 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
 
     querySnapshot.forEach(async (doc) => {
       const collectionSnapshot = await getDocs(collection(db, doc.id));
-
 
       if (!collectionSnapshot.empty) {
         let shouldDelete = true;
@@ -85,34 +92,18 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       )}
 
       <br />
-      <h1>phono!</h1>
+      <h1><font face="arial black" size="100">phono!</font></h1>
+
 
       <img src="./images/book.gif" alt="ノート" style={{ width: "75%" }} />
       <br />
-      <p>文字を抽出してノートに保存します.</p>
-
+      <p><font face="Haettenschweiler" size="5">文字を抽出してノートに保存します.</font></p>
       <Makebutton onCamera={onCamera} />
-      <button onClick={onCamera}>カメラの起動</button>
-      <button onClick={onAlbum}>アルバム</button>
 
-      <button onClick={onShare}>共有</button>
-      <br />
-      <br />
-      <button onClick={hl_newLogin}>新規ログイン</button>
-      <br />
+      <div className="bottom-navigation-container">
 
-      <button onClick={onShare}>共有</button><br /><br />
-      <button onClick={hl_newLogin}>新規ログイン</button><br />
-      <input
-        type="text"
-        placeholder="ID 6桁を入力"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-      />
-
-      <button onClick={hl_Login}>ログイン</button>
-      <br />
       <SimpleBottomNavigation onAlbum={onAlbum} onShare={onShare} />
+      </div>
     </div>
   );
 }
