@@ -111,9 +111,9 @@ function App() {
           albumId={albumId}
         />
       ) : showCamera ? (
-        <Camera onEditor={hl_Editor} />
+        <Camera onEditor={hl_Editor} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share} />
       ) : showEditor ? (
-        <Editor image={image} onOCR={hl_OCR} />
+        <Editor image={image} onOCR={hl_OCR} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
       ) : showOCR ? (
         <OCR
           image={image}
@@ -121,6 +121,8 @@ function App() {
           onRestart={hl_Restart}
           onExit={hl_Exit}
           albumId={albumId}
+          onAlbum={hl_Album}
+          onShare={hl_Share}
         />
       ) : showAlbum ? (
         <Album albumId={albumId} onBack={hl_Exit} />
