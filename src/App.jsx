@@ -21,7 +21,6 @@ function App() {
   const [showOCR, setShowOCR] = useState(false);
   const [showAlbum, setShowAlbum] = useState(false);
   const [showShare, setShowShare] = useState(false);
-  const [clipPath, setClipPath] = useState("inset(0px 0px 0px 0px)");
   const [albumId, setAlbumId] = useState("collection");
 
   // 0 --> 1
@@ -44,8 +43,8 @@ function App() {
   };
 
   // 3 --> 4
-  const hl_OCR = (clipPath) => {
-    setClipPath(clipPath);
+  const hl_OCR = (Image) => {
+    setImage(Image);
     setShowOCR(true);
     setShowEditor(false);
   };
@@ -101,7 +100,7 @@ function App() {
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
         showCamera ? (<Camera onEditor={hl_Editor}               />) :
         showEditor ? (<Editor image={image} onOCR={hl_OCR}       />) :
-        showOCR    ? (<OCR    image={image} clipPath={clipPath} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
+        showOCR    ? (<OCR    image={image} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
         showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit} />) :
         showShare  ? (<Share  albumId={albumId} onBack={hl_Exit} />) :
         ""
