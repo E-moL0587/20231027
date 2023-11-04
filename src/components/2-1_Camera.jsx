@@ -1,14 +1,15 @@
 // 撮影画面
-import React, { useRef, useEffect, useState } from "react";
-import Makebackbutton from "./parts/back";
+import React, { useRef, useEffect, useState } from 'react';
 
-function Camera({ onEditor, onBack}) {
+function Camera({ onEditor }) {
+
   // 初期化
   const videoRef = useRef(null);
   const streamRef = useRef(null);
-  const [facingMode, setFacingMode] = useState("user");
+  const [facingMode, setFacingMode] = useState('user');
 
   useEffect(() => {
+
     // カメラを起動する
     const startCamera = async () => {
       const constraints = { video: { facingMode } };
@@ -22,17 +23,17 @@ function Camera({ onEditor, onBack}) {
   // カメラを停止する
   const stopCamera = () => {
     const tracks = streamRef.current.getTracks();
-    tracks.forEach((track) => track.stop());
+    tracks.forEach(track => track.stop());
   };
 
   // 撮影する
   const captureImage = () => {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
     canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
     context.drawImage(videoRef.current, 0, 0);
-    const dataUrl = canvas.toDataURL("image/png");
+    const dataUrl = canvas.toDataURL('image/png');
     onEditor(dataUrl);
     stopCamera();
   };
@@ -40,15 +41,13 @@ function Camera({ onEditor, onBack}) {
   // 切り替え
   const toggleFacingMode = () => {
     stopCamera();
-    setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
+    setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user'));
   };
 
   return (
     <div>
       <h2>画像を編集する</h2>
-      <video ref={videoRef} autoPlay style={{ width: "50%" }} />
-      <br />
-      <Makebackbutton onBack={onBack} />
+      <video ref={videoRef} autoPlay style={{ width: '50%' }} /><br />
       <button onClick={captureImage}>撮影する</button>
       <button onClick={toggleFacingMode}>カメラ切替</button>
     </div>

@@ -1,6 +1,51 @@
+.textarea-container {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.textarea-container textarea {
+  font-family: serif;
+  font-size: 16px;
+  border: none;
+  width: 100%;
+  height: 300px;
+  resize: none;
+}
+
 .album-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.album-grid img {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.album-grid img:hover {
+  transform: scale(1.1);
+}
+
+.photo-detail {
+  padding: 40px;
+}
+
+.textarea-container {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  resize: none;
 }

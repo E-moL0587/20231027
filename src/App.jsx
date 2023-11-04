@@ -8,9 +8,10 @@ import Editor from './components/3_Editor';
 import OCR    from './components/4_OCR';
 
 function App() {
+
   // 初期化
   const [image, setImage] = useState(null);
-  const [showHome, setShowHome] = useState(true);
+  const [showHome  , setShowHome  ] = useState(true);
   const [showCamera, setShowCamera] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
   const [showOCR   , setShowOCR   ] = useState(false);
@@ -18,7 +19,6 @@ function App() {
   const [showShare , setShowShare ] = useState(false);
   const [clipPath, setClipPath] = useState('inset(0px 0px 0px 0px)');
   const [albumId, setAlbumId] = useState('collection');
-
 
   // 1 --> 2-1
   const hl_Camera = () => {
@@ -52,7 +52,6 @@ function App() {
     setShowOCR(false);
     setShowAlbum(false);
     setShowShare(false);
-    setShowCamera(false);
   };
 
   // 1 --> 2-2
@@ -61,7 +60,7 @@ function App() {
     setShowHome(false);
   };
 
-  // 1 --> 2-3
+  // 1 --> 2-2
   const hl_Share = () => {
     setShowShare(true);
     setShowHome(false);
@@ -73,10 +72,9 @@ function App() {
 
   return (
     <div className="App">
-
       {
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
-        showCamera ? (<Camera onEditor={hl_Editor} onBack={hl_Exit} />) :
+        showCamera ? (<Camera onEditor={hl_Editor}               />) :
         showEditor ? (<Editor image={image} onOCR={hl_OCR}       />) :
         showOCR    ? (<OCR    image={image} clipPath={clipPath} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
         showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit} />) :

@@ -6,18 +6,22 @@ import { collection, addDoc, getDocs, query, where, doc, updateDoc } from 'fireb
 function OCR({ image, clipPath, onRestart, onExit, albumId }) {
   const [text, setText] = useState('');
 
-  // データを保存する
-  const handleSave = async () => {
-    const querySnapshot = await getDocs(query(collection(db, albumId), where('field1', '==', 'image'), where('field2', '==', 'text')));
+// データを保存する
+const handleSave = async () => {
+  const querySnapshot = await getDocs(query(collection(db, albumId), where('field1', '==', 'image'), where('field2', '==', 'text')));
 
-    if (querySnapshot.empty) {
-      await addDoc(collection(db, albumId), { field1: image, field2: text });
-    } else {
-      const docId = querySnapshot.docs[0].id;
-      await updateDoc(doc(collection(db, albumId), docId), { field1: image, field2: text });
-    }
-    alert('保存されました！');
-  };
+  // 文の改行の間に「,」を挿入し、文章からすべての空白を取り除く
+  const cleanedText = text.replace(/\n/g, ',').replace(/\s+/g, ' ').trim();
+
+  if (querySnapshot.empty) {
+    await addDoc(collection(db, albumId), { field1: image, field2: cleanedText });
+  } else {
+    const docId = querySnapshot.docs[0].id;
+    await updateDoc(doc(collection(db, albumId), docId), { field1: image, field2: cleanedText });
+  }
+  alert('保存されました！');
+};
+
 
   useEffect(() => {
     // OCR処理

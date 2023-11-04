@@ -10,8 +10,6 @@ function Album({ albumId, onBack }) {
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const Space = (text) => { return text.replace(/ /g, ''); };
-
   const AlbumData = useCallback(async () => {
     const collectionRef = collection(db, albumId);
     const snap = await getDocs(collectionRef);
@@ -30,7 +28,14 @@ function Album({ albumId, onBack }) {
 
   const hl_Edit = (index) => {
     setPhotoIndex(index);
-    setEditTex(data[index].field2);
+    const field2Value = data[index].field2;
+    // Split the text by commas and join with line breaks, skipping empty values
+    setEditTex(
+      field2Value
+        .split(', ')
+        .filter((text) => text.trim() !== '')
+        .join('\n')
+    );
   };
 
   const hl_Delete = async (index) => {
@@ -43,7 +48,9 @@ function Album({ albumId, onBack }) {
 
   const hl_SaveEdit = async (index) => {
     const docToEdit = snapshot.docs[index];
-    await updateDoc(docToEdit.ref, { field2: editTex });
+    // Split the textarea value by line breaks and join with commas
+    const updatedField2 = editTex.split('\n').join(', ');
+    await updateDoc(docToEdit.ref, { field2: updatedField2 });
     setPhotoIndex(null);
     AlbumData();
     alert('保存されました！');
@@ -53,7 +60,7 @@ function Album({ albumId, onBack }) {
     setPhotoIndex(null);
   };
 
-  const isAlbumEmpty = data.every(item => item.field1 === 'image' && item.field2 === 'text');
+  const isAlbumEmpty = data.every((item) => item.field1 === 'image' && item.field2 === 'text');
 
   return (
     <div className="album-container">
@@ -61,25 +68,23 @@ function Album({ albumId, onBack }) {
       {loading ? (
         <div>読み込み中です！</div>
       ) : isAlbumEmpty ? (
-        <div>アルバムは空です<br /><br />
+        <div>
+          アルバムは空です
+          <br />
+          <br />
           <button onClick={onBack}>戻る</button>
         </div>
       ) : photoIndex !== null ? (
-        // データが取得済みで選択された写真の詳細表示
         <div className="photo-detail">
-          <img src={data[photoIndex].field1} alt="Album" style={{ width: '50%' }} />
-          <div>
-            {Space(data[photoIndex].field2).split('\n').map((line, i) => (
-              <div key={i}>{line}</div>
-            ))}
+          <div className="textarea-container">
+            <textarea value={editTex} onChange={(e) => setEditTex(e.target.value)} />
           </div>
-          <input type="text" value={editTex} onChange={(e) => setEditTex(e.target.value)} />
+          <br />
           <button onClick={() => hl_SaveEdit(photoIndex)}>保存</button>
           <button onClick={() => hl_Delete(photoIndex)}>削除</button>
           <button onClick={goBack}>戻る</button>
         </div>
       ) : (
-        // データが取得済みでアルバム一覧を表示
         <div>
           <div className="album-grid">
             {data.map((item, index) => (
@@ -87,7 +92,8 @@ function Album({ albumId, onBack }) {
                 <img src={item.field1} alt="Album" style={{ width: '150px', height: '150px' }} />
               </div>
             ))}
-          </div><br />
+          </div>
+          <br />
           <button onClick={onBack}>戻る</button>
         </div>
       )}
