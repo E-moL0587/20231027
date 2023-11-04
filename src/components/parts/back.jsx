@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import SvgIcon from "@mui/material/SvgIcon";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 
-export const Makebackbutton = ({ hl_Back }) => {
+export const Makebackbutton = ({ onBack }) => {
   return (
-    <SvgIcon onClick={hl_Back} variant="contained" color="success">
+    <SvgIcon onClick={onBack} variant="contained" color="success">
       <ArrowCircleLeftIcon />
     </SvgIcon>
   );
