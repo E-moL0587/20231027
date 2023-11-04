@@ -48,7 +48,9 @@ function Camera({ onEditor, onBack}) {
       <h2>画像を編集する</h2>
       <video ref={videoRef} autoPlay style={{ width: "50%" }} />
       <br />
+
       <Makebackbutton onBack={onBack} />
+
       <button onClick={captureImage}>撮影する</button>
       <button onClick={toggleFacingMode}>カメラ切替</button>
     </div>

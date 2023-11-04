@@ -1,9 +1,10 @@
-
 import React, { useState } from "react";
 import Makebutton from "./parts/button";
 import "./1_Home.css";
+
 import db from '../firebase';
 import { collection, query, doc, setDoc, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import SimpleBottomNavigation from "./parts/footer";
 
 
 function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
@@ -18,11 +19,13 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
     const querySnapshot = await getDocs(userQuery);
 
     if (querySnapshot.size === 0) {
-      alert('ユーザーが存在しません。');
+      alert("ユーザーが存在しません。");
     } else {
       onLogin(id);
+
       setGuest(true);
       alert('ログインされました！' + id + 'さんようこそ！');
+
     }
   };
 
@@ -30,14 +33,21 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
   const hl_newLogin = async () => {
     await handleDeleteCollection();
     const num = Math.floor(100000 + Math.random() * 900000).toString();
+
     await addDoc(collection(db, num), { field1: 'image', field2: 'text' });
     await setDoc(doc(collection(db, 'history'), num), {});
+
     onLogin(num);
 
     setGuest(true);
 
-    alert('ログインされました！' + num + 'さんようこそ！\nID は忘れずにメモしてください！');
+    alert(
+      "ログインされました！" +
+        num +
+        "さんようこそ！\nID は忘れずにメモしてください！"
+    );
   };
+
 
   // コレクションの削除処理
   const handleDeleteCollection = async () => {
@@ -59,6 +69,7 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       }
     });
     querySnapshot.forEach(async (doc) => { await deleteDoc(doc.ref); });
+
   };
 
   return (
@@ -77,7 +88,6 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
 
       <br />
       <h1>phono!</h1>
-
 
       <img src="./images/book.gif" alt="ノート" style={{ width: "75%" }} />
       <br />
@@ -98,7 +108,10 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
         value={id}
         onChange={(e) => setId(e.target.value)}
       />
+
       <button onClick={hl_Login}>ログイン</button><br />
+      <SimpleBottomNavigation />
+
     </div>
   );
 }

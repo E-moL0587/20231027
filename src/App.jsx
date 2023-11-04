@@ -61,11 +61,13 @@ function App() {
     setShowHome(false);
   };
 
+
   // 1 --> 2-3
   const hl_Share = () => {
     setShowShare(true);
     setShowHome(false);
   };
+
 
   const handleLogin = (newAlbumId) => {
     setAlbumId(newAlbumId);
@@ -74,6 +76,7 @@ function App() {
   return (
     <div className="App">
 
+
       {
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
         showCamera ? (<Camera onEditor={hl_Editor} onBack={hl_Exit} />) :
@@ -81,6 +84,7 @@ function App() {
         showOCR    ? (<OCR    image={image} clipPath={clipPath} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
         showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit} />) :
         showShare  ? (<Share  albumId={albumId} onBack={hl_Exit} />) :
+
         ""
       }
     </div>
