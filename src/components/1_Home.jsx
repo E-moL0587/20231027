@@ -1,10 +1,15 @@
-
 import React, { useState } from "react";
 import Makebutton from "./parts/button";
 import "./1_Home.css";
-import db from '../firebase';
-import { collection, addDoc, getDocs, query, deleteDoc } from 'firebase/firestore';
-
+import db from "../firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  deleteDoc,
+} from "firebase/firestore";
+import SimpleBottomNavigation from "./parts/footer";
 
 function Home({ onCamera, onAlbum, onLogin, albumId }) {
   const [id, setId] = useState("");
@@ -16,42 +21,45 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
     const querySnapshot = await getDocs(userQuery);
 
     if (querySnapshot.size === 0) {
-      alert('ユーザーが存在しません。');
+      alert("ユーザーが存在しません。");
     } else {
       onLogin(id);
       setIsLoggedIn(true);
-      alert('ログインされました！' + id + 'さんようこそ！');
+      alert("ログインされました！" + id + "さんようこそ！");
     }
   };
 
   const sinki = async () => {
     const num = Math.floor(100000 + Math.random() * 900000).toString();
     const collectionRef = collection(db, num);
-    await addDoc(collectionRef, { field1: 'image', field2: 'text' });
+    await addDoc(collectionRef, { field1: "image", field2: "text" });
     onLogin(num);
     setIsLoggedIn(true);
 
-    alert('ログインされました！' + num + 'さんようこそ！\nID は忘れずにメモしてください！');
+    alert(
+      "ログインされました！" +
+        num +
+        "さんようこそ！\nID は忘れずにメモしてください！"
+    );
   };
 
   const handleDeleteCollections = async () => {
+    const collectionRef = collection(db, id.toString());
 
-      const collectionRef = collection(db, id.toString());
-  
-      try {
-        const querySnapshot = await getDocs(collectionRef);
-  
-        querySnapshot.forEach(async (doc) => {
-          const data = doc.data();
-          if (data.field1 === 'image' && data.field2 === 'text') {
-            await deleteDoc(doc.ref);
-          }
-        });
-      } catch (error) {
-        console.error(`Error deleting collection ${id}: ${error.message}`);
-      }
-  
-    alert('削除が完了しました。');
+    try {
+      const querySnapshot = await getDocs(collectionRef);
+
+      querySnapshot.forEach(async (doc) => {
+        const data = doc.data();
+        if (data.field1 === "image" && data.field2 === "text") {
+          await deleteDoc(doc.ref);
+        }
+      });
+    } catch (error) {
+      console.error(`Error deleting collection ${id}: ${error.message}`);
+    }
+
+    alert("削除が完了しました。");
   };
 
   return (
@@ -67,7 +75,6 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
       )}
       <br />
       <h1>phono!</h1>
-
 
       <img src="./images/book.gif" alt="ノート" style={{ width: "75%" }} />
       <br />
@@ -87,9 +94,11 @@ function Home({ onCamera, onAlbum, onLogin, albumId }) {
         value={id}
         onChange={(e) => setId(e.target.value)}
       />
-      <button onClick={handleLogin}>ログイン</button><br />
+      <button onClick={handleLogin}>ログイン</button>
+      <br />
       <button onClick={sinki}>新規ログイン</button>
       {/* <button onClick={handleDeleteCollections}>nn</button> */}
+      <SimpleBottomNavigation />
     </div>
   );
 }

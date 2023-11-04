@@ -56,12 +56,6 @@ function App() {
     setShowHome(false);
   };
 
-  // 2-2 --> 1
-  const hl_Back = () => {
-    setShowHome(true);
-    setShowCamera(false);
-  };
-
   const handleLogin = (newAlbumId) => {
     setAlbumId(newAlbumId);
   };
@@ -77,7 +71,7 @@ function App() {
         />
       ) : //ホーム画面
       showCamera ? (
-        <Camera onEditor={hl_Editor} hl_Back={hl_Back} />
+        <Camera onEditor={hl_Editor} />
       ) : //カメラ画面
       showEditor ? (
         <Editor image={image} onOCR={hl_OCR} />
