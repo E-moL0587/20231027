@@ -1,8 +1,9 @@
 // 撮影画面
 import React, { useRef, useEffect, useState } from "react";
 import Makebackbutton from "./parts/back";
+import MakeCamerabutton from "./parts/cameraButton";
 
-function Camera({ onEditor, onBack}) {
+function Camera({ onEditor, onBack }) {
   // 初期化
   const videoRef = useRef(null);
   const streamRef = useRef(null);
@@ -50,8 +51,8 @@ function Camera({ onEditor, onBack}) {
       <br />
 
       <Makebackbutton onBack={onBack} />
+      <MakeCamerabutton captureImage={captureImage} />
 
-      <button onClick={captureImage}>撮影する</button>
       <button onClick={toggleFacingMode}>カメラ切替</button>
     </div>
   );
