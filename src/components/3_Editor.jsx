@@ -1,8 +1,9 @@
 // 編集画面
 import React, { useState, useEffect } from "react";
 import SimpleBottomNavigation from "./parts/footer";
+import "./parts/bottom_position.css"
 
-function Editor({ image, onOCR, onBack, onAlbum, onShare }) {
+function Editor({ image, onOCR, onExit, onAlbum, onShare }) {
   // 初期化
   const [t, setT] = useState(0);
   const [r, setR] = useState(0);
@@ -68,11 +69,13 @@ function Editor({ image, onOCR, onBack, onAlbum, onShare }) {
         onChange={(e) => hl_Input(e, setL)}
       />
       <br />
+      <div className="bottom-navigation-container">
       <SimpleBottomNavigation
-        onBack={onBack}
+        onExit={onExit}
         onAlbum={onAlbum}
         onShare={onShare}
       />
+      </div>
     </div>
   );
 }

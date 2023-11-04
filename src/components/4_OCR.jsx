@@ -11,6 +11,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import SimpleBottomNavigation from "./parts/footer";
+import "./parts/bottom_position.css"
 
 function OCR({
   image,
@@ -56,23 +57,26 @@ const handleSave = async () => {
 
   return (
     <div>
-      <h2>撮影された画像はこちらです！</h2>
+      <h2><font face="Haettenschweiler" size="6">撮影した画像はこちらです！</font></h2>
+      <br />
       <img
         src={image}
         alt="画像"
         style={{ clipPath: clipPath, width: "50%" }}
       />
       <br />
-      <button onClick={onRestart}>もう一度</button>
-      <button onClick={onExit}>終了する</button>
-      <button onClick={handleSave}>保存</button>
+      <button onClick={onRestart}><font face="Haettenschweiler" size="3">もう一度</font></button>
+      <button onClick={onExit}><font face="Haettenschweiler" size="3">終了する</font></button>
+      <button onClick={handleSave}><font face="Haettenschweiler" size="3">保存</font></button>
       <h2>抽出した文字</h2>
-      <p>{text}</p>
+      <p><font face="Haettenschweiler" size="5">{text}</font></p>
+      <div className="bottom-navigation-container">
       <SimpleBottomNavigation
-        onBack={onBack}
+        onExit={onExit}
         onAlbum={onAlbum}
         onShare={onShare}
       />
+      </div>
     </div>
   );
 }

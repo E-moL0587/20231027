@@ -91,6 +91,7 @@ function App() {
 
   return (
     <div className="App">
+
       {showLogin ? (
         <Login
           onHome={hl_Home}
@@ -126,6 +127,7 @@ function App() {
       ) : showShare ? (
         <Share albumId={albumId} onBack={hl_Exit} />
       ) : (
+
         ""
       )}
     </div>
