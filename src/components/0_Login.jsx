@@ -98,22 +98,25 @@ function Login({ onCamera, onAlbum, onShare, onLogin, albumId, onHome }) {
         <AccountCircleIcon />
       </SvgIcon>
       <br />
-      <button class="new_login_button" onClick={hl_newLogin}>
-        新規ログイン
-      </button>
-      <br />
-      <input
-        class="login_box"
-        type="text"
-        placeholder="ID 6桁を入力"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-      />
-      <button class="login_button" onClick={hl_Login}>
-        ログイン
-      </button>
-      <button onClick={onHome}>ログイン</button>
-      <br />
+      <div>
+        <button class="new_login_button" onClick={hl_newLogin}>
+          新規ログイン
+        </button>
+        <br />
+        <br />
+        <input
+          class="login_box"
+          type="text"
+          placeholder="ID 6桁を入力"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+        />
+        <button class="login_button" onClick={hl_Login}>
+          ログイン
+        </button>
+      {/* <button onClick={onHome}>ログイン</button> */}
+        <br />
+      </div>
     </div>
   );
 }

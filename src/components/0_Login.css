@@ -1,16 +1,20 @@
 .new_login_button {
-  background-color: #1da1f2;
+  background-color: #1DA1F2;
   color: white;
   border: none;
   border-radius: 4px;
   padding: 10px;
   margin-top: 10px;
   cursor: pointer;
+  box-shadow: 0 4px 0 hsl(203, 79%, 37%);
+}
+.new_login_button:hover {
+  transform: translateY(4px);
+  box-shadow: none;
 }
 
 .login_box {
-  width: 300px;
-  height: 5px;
+  width: 200px;
   border: 1px solid grey;
   border-radius: 4px;
   padding: 20px;
@@ -18,8 +22,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  margin: 0 auto; /* 左右のマージンを自動で調整して中央に配置 */
 }
+.login_box:hover {
+  border: 3px solid #0d5181;
+}
+
 
 .login_button {
   background-color: #1da1f2;
@@ -29,4 +37,9 @@
   padding: 10px;
   margin-top: 10px;
   cursor: pointer;
+  box-shadow: 0 4px 0 hsl(203, 79%, 37%);
+}
+.login_button:hover {
+    transform: translateY(4px);
+    box-shadow: none;
 }
