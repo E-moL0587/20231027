@@ -1,5 +1,6 @@
 // 画面の状態管理
 import React, { useState } from 'react';
+import Login from './components/0_Login';
 import Home   from './components/1_Home';
 import Camera from './components/2-1_Camera';
 import Album  from './components/2-2_Album';
@@ -10,7 +11,8 @@ import OCR    from './components/4_OCR';
 function App() {
   // 初期化
   const [image, setImage] = useState(null);
-  const [showHome, setShowHome] = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
+  const [showHome, setShowHome] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
   const [showOCR   , setShowOCR   ] = useState(false);
@@ -19,6 +21,12 @@ function App() {
   const [clipPath, setClipPath] = useState('inset(0px 0px 0px 0px)');
   const [albumId, setAlbumId] = useState('collection');
 
+
+  // 0 --> 1
+  const hl_home = () => {
+    setShowHome(true);
+    setShowLogin(false);
+  }
 
   // 1 --> 2-1
   const hl_Camera = () => {
@@ -48,6 +56,7 @@ function App() {
 
   // 4 --> 1 && 2-2 --> 1
   const hl_Exit = () => {
+    setShowLogin(false)
     setShowHome(true);
     setShowOCR(false);
     setShowAlbum(false);
@@ -78,6 +87,7 @@ function App() {
 
 
       {
+        showLogin  ? (<Login onBack={hl_Exit} />):
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
         showCamera ? (<Camera onEditor={hl_Editor} onBack={hl_Exit} />) :
         showEditor ? (<Editor image={image} onOCR={hl_OCR}       />) :
