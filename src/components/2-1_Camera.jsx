@@ -4,16 +4,15 @@ import Makebackbutton from "./parts/back";
 import MakeCamerabutton from "./parts/cameraButton";
 import "./2-1_Camera.css";
 import SimpleBottomNavigation from "./parts/footer";
-import "./parts/bottom_position.css"
+import "./parts/bottom_position.css";
 
-function Camera({ onEditor, onBack, onShare, onExit, onAlbum}) {
+function Camera({ onEditor, onBack, onShare, onExit, onAlbum }) {
   // 初期化
   const videoRef = useRef(null);
   const streamRef = useRef(null);
-  const [facingMode, setFacingMode] = useState('user');
+  const [facingMode, setFacingMode] = useState("user");
 
   useEffect(() => {
-
     // カメラを起動する
     const startCamera = async () => {
       const constraints = { video: { facingMode } };
@@ -27,17 +26,17 @@ function Camera({ onEditor, onBack, onShare, onExit, onAlbum}) {
   // カメラを停止する
   const stopCamera = () => {
     const tracks = streamRef.current.getTracks();
-    tracks.forEach(track => track.stop());
+    tracks.forEach((track) => track.stop());
   };
 
   // 撮影する
   const captureImage = () => {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
     canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
     context.drawImage(videoRef.current, 0, 0);
-    const dataUrl = canvas.toDataURL('image/png');
+    const dataUrl = canvas.toDataURL("image/png");
     onEditor(dataUrl);
     stopCamera();
   };
@@ -45,15 +44,18 @@ function Camera({ onEditor, onBack, onShare, onExit, onAlbum}) {
   // 切り替え
   const toggleFacingMode = () => {
     stopCamera();
-    setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user'));
+    setFacingMode((prevMode) => (prevMode === "user" ? "environment" : "user"));
   };
 
   return (
     <div class="whole">
       <div class="main">
         <div class="containertop">
-          <Makebackbutton onBack={onBack} />
-          <h2><font face="Haettenschweiler" size="6">画像を撮影する</font></h2>
+          <h2>
+            <font face="Haettenschweiler" size="6">
+              画像を撮影する
+            </font>
+          </h2>
         </div>
 
         <video class="display" ref={videoRef} autoPlay />
@@ -65,7 +67,11 @@ function Camera({ onEditor, onBack, onShare, onExit, onAlbum}) {
         </div>
       </div>
       <div className="bottom-navigation-container">
-      <SimpleBottomNavigation onExit={onExit} onAlbum={onAlbum} onShare={onShare} />
+        <SimpleBottomNavigation
+          onExit={onExit}
+          onAlbum={onAlbum}
+          onShare={onShare}
+        />
       </div>
     </div>
   );
