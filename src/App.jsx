@@ -125,9 +125,9 @@ function App() {
           onShare={hl_Share}
         />
       ) : showAlbum ? (
-        <Album albumId={albumId} onBack={hl_Exit} />
+        <Album albumId={albumId} onBack={hl_Exit} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
       ) : showShare ? (
-        <Share albumId={albumId} onBack={hl_Exit} />
+        <Share albumId={albumId} onBack={hl_Exit} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share}/>
       ) : (
 
         ""
