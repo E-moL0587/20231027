@@ -4,7 +4,7 @@ import { collection, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import "./2-2_Album.css";
 import SimpleBottomNavigation from "./parts/footer";
 
-function Album({ albumId, onBack }) {
+function Album({ albumId, onBack, onShare }) {
   const [data, setData] = useState([]);
   const [photoIndex, setPhotoIndex] = useState(null);
   const [editTex, setEditTex] = useState("");
@@ -41,7 +41,7 @@ function Album({ albumId, onBack }) {
     await deleteDoc(docToDelete.ref);
     setPhotoIndex(null);
     AlbumData();
-    alert('削除されました！');
+    alert("削除されました！");
   };
 
   const hl_SaveEdit = async (index) => {
@@ -114,7 +114,7 @@ function Album({ albumId, onBack }) {
           <button onClick={onBack}>戻る</button>
         </div>
       )}
-      <SimpleBottomNavigation />
+      <SimpleBottomNavigation onBack={onBack} onShare={onShare} />
     </div>
   );
 }

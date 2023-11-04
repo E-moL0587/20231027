@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import SimpleBottomNavigation from "./parts/footer";
 
-function Editor({ image, onOCR }) {
+function Editor({ image, onOCR, onBack, onAlbum, onShare }) {
   // 初期化
   const [t, setT] = useState(0);
   const [r, setR] = useState(0);
@@ -68,7 +68,11 @@ function Editor({ image, onOCR }) {
         onChange={(e) => hl_Input(e, setL)}
       />
       <br />
-      <SimpleBottomNavigation />
+      <SimpleBottomNavigation
+        onBack={onBack}
+        onAlbum={onAlbum}
+        onShare={onShare}
+      />
     </div>
   );
 }

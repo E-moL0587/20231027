@@ -117,7 +117,7 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
 
       <button onClick={hl_Login}>ログイン</button>
       <br />
-      <SimpleBottomNavigation />
+      <SimpleBottomNavigation onAlbum={onAlbum} onShare={onShare} />
     </div>
   );
 }
