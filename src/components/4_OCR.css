@@ -1,0 +1,11 @@
+.image-container {
+  border: 3px solid #ccc;    /* Add a 1px solid border */
+  box-shadow: 2px 2px 8px #888; /* Add a shadow (2px horizontal, 2px vertical, 4px blur, color #888) */
+}
+
+.search-results {
+  background-color: white;
+  padding: 20px; /* Adjust the padding to your preference */
+  border: 1px solid #e0e0e0; /* Add a border for separation */
+  border-radius: 5px; /* Add rounded corners */
+}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Tesseract from "tesseract.js";
+import { doc, collection, addDoc, getDocs, deleteDoc } from "firebase/firestore";
 import db from "../firebase";
-import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 import SimpleBottomNavigation from "./parts/footer";
-import "./parts/bottom_position.css"
+import "./parts/bottom_position.css";
+import "./4_OCR.css";
 
 const API_KEY = "AIzaSyBMgAv1bD4gemQNd6FSlSaDM-nmgD7IEiU";
 const CX = "b384a2b660bf747b0";
@@ -16,22 +17,24 @@ function OCR({ image, clipPath, onRestart, onExit, albumId, onBack, onAlbum, onS
     const collectionRef = collection(db, albumId);
     const querySnapshot = await getDocs(collectionRef);
     const cleanedText = text.replace(/\n/g, ",").replace(/\s+/g, " ").trim();
-    let documentExists = false;
-
+  
+    let documentToDeleteId = null;
+  
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      if (data.field1 === image && data.field2 === cleanedText) {
-        documentExists = true;
-        const docId = doc.id;
-        updateDoc(doc(collectionRef, docId), { field1: image, field2: cleanedText });
+      if (data.field1 === "image" && data.field2 === "text") {
+        documentToDeleteId = doc.id;
       }
     });
-
-    if (!documentExists) {
-      await addDoc(collectionRef, { field1: image, field2: cleanedText });
+  
+    if (documentToDeleteId) {
+      // 削除対象のドキュメントが見つかった場合に削除
+      await deleteDoc(doc(collectionRef, documentToDeleteId));
     }
+  
+    await addDoc(collectionRef, { field1: image, field2: cleanedText });
     alert("保存されました！");
-  };
+  };  
 
   useEffect(() => {
     const doOCR = async () => {
@@ -66,33 +69,37 @@ function OCR({ image, clipPath, onRestart, onExit, albumId, onBack, onAlbum, onS
 
   return (
     <div>
-      <h2><font face="Haettenschweiler" size="6">撮影した画像はこちらです！</font></h2>
       <br />
+      <h2><font face="Haettenschweiler" size="5">撮影した画像はこちらです！</font></h2>
       <img
         src={image}
         alt="画像"
-        style={{ clipPath: clipPath, width: "50%" }}
+        className="image-container"
+        style={{ clipPath, width: "90%" }}
       />
       <br />
       <button onClick={onRestart}><font face="Haettenschweiler" size="3">もう一度</font></button>
       <button onClick={onExit}><font face="Haettenschweiler" size="3">終了する</font></button>
       <button onClick={handleSave}><font face="Haettenschweiler" size="3">保存</font></button>
-      <h2>抽出した文字</h2>
-      <p><font face="Haettenschweiler" size="5">{text}</font></p>
       <h2>検索結果</h2>
-      <div>
+      <div className="search-results">
         {searchResults.map((result, index) => (
           <div key={index}>
             <a href={result.link} target="_blank" rel="noopener noreferrer">
-              {result.title}
+              {result.title.length > 10 ? result.title.slice(0, 10) + "..." : result.title}
             </a>
           </div>
         ))}
       </div>
+      <h2>抽出した文字</h2>
+      <div className="search-results">
+          <textarea value={text} />
+      </div>
       <div className="bottom-navigation-container">
-      <SimpleBottomNavigation onBack={onBack} onAlbum={onAlbum} onShare={onShare} />
+        <SimpleBottomNavigation onBack={onBack} onAlbum={onAlbum} onShare={onShare} />
+      </div>
+      <br /><br /><br /><br />
     </div>
-  </div>
   );
 }
 

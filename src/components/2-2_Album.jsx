@@ -32,12 +32,7 @@ function Album({ albumId, onBack, onShare, onAlbum, onExit }) {
   const hl_Edit = (index) => {
     setPhotoIndex(index);
     const field2Value = data[index].field2;
-    setEditTex(
-      field2Value
-        .split(', ')
-        .filter((text) => text.trim() !== '')
-        .join('\n')
-    );
+    setEditTex(field2Value);
   };
 
   // 削除ボタン
@@ -79,7 +74,7 @@ function Album({ albumId, onBack, onShare, onAlbum, onExit }) {
         </div>                    // ローディング終了後、アルバムに写真がある時、trueで写真のノート(編集)を表示、falseで写真を選択する一覧の表示
       ) : photoIndex !== null ? ( // trueとfalseは写真を選択するか否かで変化する
         <div className="photo-detail">
-          <div className="textarea-container">
+          <div className="search-results">
             <textarea value={editTex} onChange={(e) => setEditTex(e.target.value)} />
           </div>
           <br />
