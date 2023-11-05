@@ -131,9 +131,9 @@ function App() {
 
         showLogin  ? (<Login  onHome={hl_Home} onBack={hl_Exit}  />) :
         showHome   ? (<Home   onCamera={hl_Camera} onAlbum={hl_Album} onShare={hl_Share} onLogin={handleLogin} albumId={albumId} />) :
-        showCamera ? (<Camera onEditor={hl_Editor}               />) :
-        showEditor ? (<Editor image={image} onOCR={hl_OCR}       />) :
-        showOCR    ? (<OCR    image={image} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId} />) :
+        showCamera ? (<Camera onEditor={hl_Editor}  onAlbum={hl_Album} onShare={hl_Share} onExit={hl_Exit}/>) :
+        showEditor ? (<Editor image={image} onOCR={hl_OCR}  onAlbum={hl_Album} onShare={hl_Share} onExit={hl_Exit}/>) :
+        showOCR    ? (<OCR    image={image} onRestart={hl_Restart} onExit={hl_Exit} albumId={albumId}  onAlbum={hl_Album} onShare={hl_Share} />) :
         showAlbum  ? (<Album  albumId={albumId} onBack={hl_Exit} />) :
         showShare  ? (<Share  albumId={albumId} onBack={hl_Exit} />) :
         ""
