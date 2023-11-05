@@ -57,16 +57,10 @@ function Camera({ onEditor, onBack, onShare, onExit, onAlbum }) {
             </font>
           </h2>
         </div>
-
+        <button onClick={toggleFacingMode} className="changeCamera">カメラ切替</button>
         <video class="display" ref={videoRef} autoPlay />
         <br />
-
-        <div class="containerfoot">
-          <MakeCamerabutton captureImage={captureImage} />
-          <button class="changeCamera" onClick={toggleFacingMode}>
-            カメラ切替
-          </button>
-        </div>
+        <MakeCamerabutton captureImage={captureImage} />
       </div>
       <div className="bottom-navigation-container">
         <SimpleBottomNavigation
