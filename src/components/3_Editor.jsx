@@ -4,7 +4,7 @@ import "cropperjs/dist/cropper.css";
 import SimpleBottomNavigation from "./parts/footer";
 import "./parts/bottom_position.css"
 
-function ImageEditor({ image, onOCR, onBack, onAlbum, onShare }) {
+function ImageEditor({ image, onOCR, onExit, onAlbum, onShare }) {
   const cropperRef = useRef(null);
   const [croppedImage, setCroppedImage] = useState(null);
 
@@ -32,7 +32,9 @@ function ImageEditor({ image, onOCR, onBack, onAlbum, onShare }) {
       <h2>画像を編集する</h2>
       <img src={image} ref={cropperRef} alt="Captured" style={{ width: "50%" }} /><br />
       <button onClick={handleCrop}>次に進む</button><br />
-      <SimpleBottomNavigation onBack={onBack} onAlbum={onAlbum} onShare={onShare} />
+      <div className="bottom-navigation-container">
+      <SimpleBottomNavigation onExit={onExit} onAlbum={onAlbum} onShare={onShare} />
+      </div>
     </div>
   );
 }
