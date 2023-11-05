@@ -5,8 +5,8 @@ import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 import SimpleBottomNavigation from "./parts/footer";
 import "./parts/bottom_position.css"
 
-const API_KEY = "AIzaSyBim71NCsgxVGOpNCXrswtQ0OjN5vzvomI";
-const CX = "502fc3d9bfefa4fcc";
+const API_KEY = "AIzaSyBMgAv1bD4gemQNd6FSlSaDM-nmgD7IEiU";
+const CX = "b384a2b660bf747b0";
 
 function OCR({ image, clipPath, onRestart, onExit, albumId, onBack, onAlbum, onShare }) {
   const [text, setText] = useState("");

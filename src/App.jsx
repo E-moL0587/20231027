@@ -21,6 +21,13 @@ function App() {
   const [showShare, setShowShare] = useState(false);
   const [albumId, setAlbumId] = useState("collection");
 
+  const handlePhotoSelected = (imageData) => {
+    setImage(imageData); // 選択された写真をstateに保存
+    setShowEditor(true);
+    setShowHome(false);
+    // Editor画面に遷移するためのロジックをここに追加することもできます
+  };
+
   // 0 --> 1
   const hl_Home = () => {
     setShowHome(true);
@@ -108,6 +115,7 @@ function App() {
           onShare={hl_Share}
           onLogin={handleLogin}
           albumId={albumId}
+          onPhotoSelected={handlePhotoSelected}
         />
       ) : showCamera ? (
         <Camera onEditor={hl_Editor} onExit={hl_Exit} onAlbum={hl_Album} onShare={hl_Share} />

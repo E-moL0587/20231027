@@ -14,10 +14,23 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
+function Home({ onCamera, onAlbum, onShare, onLogin, albumId, onPhotoSelected }) {
   const [id, setId] = useState("");
   const [guest, setGuest] = useState(albumId !== "collection");
 
+
+  // 写真が選択されたときのハンドラ
+  const handlePhotoSelected = (e) => {
+    const selectedFile = e.target.files[0]; // 一番最初に選択されたファイルを取得
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageData = event.target.result;
+        onPhotoSelected(imageData); // 選択された写真を親コンポーネントに渡す
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
   // ログイン処理
   const hl_Login = async () => {
     const userCollectionRef = collection(db, id);
@@ -101,9 +114,10 @@ function Home({ onCamera, onAlbum, onShare, onLogin, albumId }) {
       <Makebutton onCamera={onCamera} />
 
       <div className="bottom-navigation-container">
-
+      <input type="file" accept="image/*" onChange={handlePhotoSelected} />
       <SimpleBottomNavigation onAlbum={onAlbum} onShare={onShare} />
       </div>
+      <br /><br /><br /><br />
     </div>
   );
 }
