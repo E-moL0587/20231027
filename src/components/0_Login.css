@@ -4,7 +4,7 @@
   border: none;
   border-radius: 4px;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 90px;
   cursor: pointer;
   box-shadow: 0 4px 0 hsl(203, 79%, 37%);
 }
@@ -22,7 +22,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* 左右のマージンを自動で調整して中央に配置 */
 }
 .login_box:hover {
   border: 3px solid #0d5181;
@@ -35,11 +34,26 @@
   border: none;
   border-radius: 4px;
   padding: 10px;
-  margin-top: 10px;
   cursor: pointer;
   box-shadow: 0 4px 0 hsl(203, 79%, 37%);
 }
 .login_button:hover {
     transform: translateY(4px);
     box-shadow: none;
+}
+
+.Icon_Position{
+  width: 80px; /* 幅を指定 */
+  height: 80px; /* 高さを指定 */
+  position: absolute; /* 絶対位置指定 */
+  top: 20%; /* 上からの位置 */
+  left: 50%; /* 左からの位置 */
+  transform: translate(-50%, -50%); /* 中央に配置するためのトランスフォーム */
+}
+
+.Login_Container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 90px;
 }
