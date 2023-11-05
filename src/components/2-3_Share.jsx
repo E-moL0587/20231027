@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import db from "../firebase";
 import { collection, setDoc, getDocs, addDoc } from "firebase/firestore";
-import "./2-2_Album.css";
+import "./4_OCR.css";
 import SimpleBottomNavigation from "./parts/footer";
 import "./parts/bottom_position.css"
 
@@ -105,14 +105,17 @@ function Share({ albumId, onBack, onAlbum, onExit, onShare }) {
           <img
             src={data[photoIndex].field1}
             alt="Album"
+            className="image-container"
             style={{ width: "50%" }}
           />
           <div>
+            <br />
             {Space(data[photoIndex].field2)
               .split("\n")
               .map((line, i) => (
                 <div key={i}>{line}</div>
               ))}
+              <br />
           </div>
           {showTextInput ? (
             <div>
@@ -120,7 +123,7 @@ function Share({ albumId, onBack, onAlbum, onExit, onShare }) {
                 type="text"
                 value={collectionName}
                 onChange={(e) => setCollectionName(e.target.value)}
-                placeholder="コレクション名を入力"
+                placeholder="IDを入力"
               />
               <button onClick={sharePhoto}>共有</button>
             </div>
@@ -137,6 +140,7 @@ function Share({ albumId, onBack, onAlbum, onExit, onShare }) {
                 <img
                   src={item.field1}
                   alt="Album"
+                  className="image-container"
                   style={{ width: "150px", height: "150px" }}
                 />
               </div>
