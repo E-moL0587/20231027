@@ -14,14 +14,6 @@
   display: flex;
 } */
 
-.MuiSvgIcon-root {
-  position: absolute;
-  top: 80%; /* 上端を中央に配置 */
-  left: 50%; /* 左端を中央に配置 */
-  transform: translate(-50%, -50%); /* ボタンの中央を中央に配置 */
-  width: 150px; /* 幅を調整 */
-  height: 50px; /* 高さを調整 */
-}
 
 .changeCamera {
   border-radius: 20px; /* 丸い角の半径を調整 */
@@ -33,9 +25,18 @@
 }
 
 .display {
-  position: fixed;
-  top: 0;
+  position: relative;
+  top: 100px;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.changeCamera {
+  border-radius: 20px;
+  padding: 10px 20px;
+  background-color: #0fa44b;
+  color: #fff;
+  border: none;
+
 }
